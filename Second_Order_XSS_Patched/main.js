@@ -1,7 +1,7 @@
 var myVar = setInterval(LoadData, 2000);
 
 http_request = new XMLHttpRequest();
-
+//convert html
 function escapeHtml(text) {
   return text
       .replace(/&/g, "&amp;")
@@ -55,9 +55,15 @@ $(document).ready(function() {
 		$("#butsave").attr("disabled", "disabled");
 		var id = document.forms["frm"]["Pcommentid"].value;
 		var name = document.forms["frm"]["name"].value;
-		var msg = document.forms["frm"]["msg"].value;
-		msg=escapeHtml(msg);
-		if(name!="" && msg!=""){
+		var msg = document.forms["frm"][ "msg"].value;
+		//regex for input validation
+		var regex = /[<]*<[\s\u200B]*script[\s\u200B]*>.*[/]*[<]*<[\s\u200B]*\/[\s\u200B]*script[\s\u200B]*>/ig;
+		if(regex.test(name) || regex.test(msg)){
+			alert("Please only enter valid characters")
+		}
+		else{
+			msg=escapeHtml(msg);
+			if(name!="" && msg!=""){
 			$.ajax({
 				url: "save.php",
 				type: "POST",
@@ -85,6 +91,7 @@ $(document).ready(function() {
 		}
 		else{
 			alert('Please fill all the field !');
+		}
 		}
 	});
 });
