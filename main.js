@@ -12,7 +12,7 @@ success: function(data) {
     for (var i=0; i<data.length; i++) {
         var commentId = data[i].id;
         if(data[i].parent_comment == 0){
-        var row = $('<tr><td><b><img src="avatar.jpg" width="30px" height="30px" />' + data[i].student + ' :<i> '+ data[i].date + ':</i></b></br><p style="padding-left:80px">' + data[i].post + '</br><a data-toggle="modal" data-id="'+ commentId +'" title="Add this item" class="open-ReplyModal" href="#ReplyModal">Reply</a>'+'</p></td></tr>');
+        var row = $('<tr><td><b><img src="avatar.jpg" width="30px" height="30px" />' + data[i].student + ' :<i> '+ data[i].date + ':</i></b></br><p style="padding-left:80px">' + data[i].post + '</br><a data-toggle="modal" data-id="'+ commentId +'" title="Add this item" class="open-ReplyModal" href="#ReplyModal"></a>'+'</p></td></tr>');
         $('#record').append(row);
         for (var r = 0; (r < data.length); r++)
                 {
@@ -78,48 +78,3 @@ $(document).ready(function() {
 		}
 	});
 });
-
-//Reply comment
-$(document).ready(function() {
-	$('#btnreply').on('click', function() {
-		$("#btnreply").attr("disabled", "disabled");
-		var id = document.forms["frm1"]["Rcommentid"].value;
-		var name = document.forms["frm1"]["Rname"].value;
-		var msg = document.forms["frm1"]["Rmsg"].value;
-		if(name!="" && msg!=""){
-			$.ajax({
-				url: "save.php",
-				type: "POST",
-				data: {
-					id: id,
-					name: name,
-					msg: msg,			
-				},
-				cache: false,
-				success: function(dataResult){
-					var dataResult = JSON.parse(dataResult);
-					if(dataResult.statusCode==200){
-						$("#btnreply").removeAttr("disabled");
-						document.forms["frm1"]["Rcommentid"].value = "";
-						document.forms["frm1"]["Rname"].value = "";
-						document.forms["frm1"]["Rmsg"].value = "";
-						LoadData(); 
-						$("#ReplyModal").modal("hide");
-					}
-					else if(dataResult.statusCode==201){
-					   alert("Error occured !");
-					}
-					
-				}
-			});
-		}
-		else{
-			alert('Please fill all the field !');
-		}
-	});
-});
-
-
-
-
-	
