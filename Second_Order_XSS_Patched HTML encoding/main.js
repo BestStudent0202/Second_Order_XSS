@@ -56,6 +56,7 @@ $(document).ready(function() {
 		var id = document.forms["frm"]["Pcommentid"].value;
 		var name = document.forms["frm"]["name"].value;
 		var msg = document.forms["frm"][ "msg"].value;
+		name=escapeHtml(name);
 		msg=escapeHtml(msg);
 		if(name!="" && msg!=""){
 			$.ajax({
